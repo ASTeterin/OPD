@@ -15,12 +15,16 @@ function findOlderWorker() {
                 olderWorker = name;
             }
         }
-        return olderWorker + ' ' + maxAge;    
-    }   
+        let result = {};
+        result[olderWorker] = maxAge;
+        return result;   
+    }
+    return;   
 }
 
 function printOlderWorker(olderWorker) {
-    console.log(olderWorker);
+    if (olderWorker != undefined)
+        console.log(olderWorker);
 }
 
 printOlderWorker(findOlderWorker());
