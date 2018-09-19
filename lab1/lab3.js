@@ -4,8 +4,7 @@ function findOlderWorker() {
         "Петя": 27,
         "Даша": 22,
     };
-    
-    if (Object.keys(staff)[0] != undefined) {
+    if (Object.keys(staff).length != 0) {
         let olderWorker = Object.keys(staff)[0];
         let maxAge = staff[olderWorker];
         //console.log(olderWorker);
