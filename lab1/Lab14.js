@@ -1,7 +1,7 @@
 function Calculator() {
     this.read = function() {
-        this.firstOperand = +prompt('Enter fitst operand', 0);
-        this.secondOperand = Number(prompt('Enter second operand', 0));
+        this.firstOperand = Number(prompt('Enter fitst operand', 0)) || 0;
+        this.secondOperand = Number(prompt('Enter second operand', 0)) || 0;
     }
 
     console.log(this.firstOperand);
@@ -18,5 +18,5 @@ function Calculator() {
 var calculator = new Calculator();
 calculator.read();
 
-alert(isNaN(calculator.sum()) ? "одно или оба введенных значения не являются числом" : "Сумма = " + calculator.sum());
-alert(isNaN(calculator.mul()) ? "одно или оба введенных значения не являются числом" : "Произведение = " + calculator.mul());
+alert("Сумма = " + calculator.sum());
+alert("Произведение = " + calculator.mul());
