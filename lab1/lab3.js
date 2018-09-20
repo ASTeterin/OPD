@@ -7,7 +7,6 @@ function findOlderWorker() {
     if (Object.keys(staff).length != 0) {
         let olderWorker = Object.keys(staff)[0];
         let maxAge = staff[olderWorker];
-        //console.log(olderWorker);
         for (const name in staff) {
 
             if (maxAge < staff[name]) {
@@ -19,11 +18,11 @@ function findOlderWorker() {
         result[olderWorker] = maxAge;
         return result;   
     }
-    return;   
+    return null;   
 }
 
 function printOlderWorker(olderWorker) {
-    if (olderWorker != undefined)
+    if (olderWorker != null)
         console.log(olderWorker);
     else
         console.log("объект не задан");
