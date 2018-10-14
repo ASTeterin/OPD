@@ -1,11 +1,18 @@
 
-
-//const CLOUD_POSITION = [150, 500, 850];
 const SKY_COLOR = 240;
 const HORIZONT = 0.8;
 const SUN_SPEED = 0.1;
 const CLOUD_SIZE = 60;
-const ORBIT_RADIUS = 380;
+const ORBIT_RADIUS = 360;
+const WINDOW_WIDHT = 100;
+const WINDOW_HEIGHT = 120;
+const CLOUD_RADIUS_X = 60;
+const CLOUD_RADIUS_Y = 40;
+const HOUSE_WIDHT = 220;
+const HOUSE_HEIGHT = 240;
+const MIN_CLOUDS_LEVEL = 30;
+const MIN_CLOUD_SPEED= 100;
+
 
 function Cloud({
     startX,
@@ -90,7 +97,7 @@ function drawGrass(ctx, width, height) {
 
 
 
-function drawHouse(ctx, centrX, centrY , houseWidht, houseHight, windowSize) {
+function drawHouse(ctx, centrX, centrY , houseWidht, houseHight, windowWidht, windowHight) {
     ctx.beginPath();
     ctx.fillStyle = "brown";
     ctx.rect(centrX - houseWidht/2, centrY, houseWidht, houseHight);
@@ -110,17 +117,17 @@ function drawHouse(ctx, centrX, centrY , houseWidht, houseHight, windowSize) {
 
     ctx.beginPath();
     ctx.fillStyle = "yellow";
-    ctx.rect(centrX - windowSize/2, centrY + (houseHight - windowSize*1.2)/2, windowSize, windowSize*1.2);
+    ctx.rect(centrX - windowWidht/2, centrY + (houseHight - windowHight)/2, windowWidht, windowHight);
     ctx.fill();
 
     ctx.beginPath();
     ctx.fillStyle = "grey";
-    ctx.moveTo(centrX,  centrY + (houseHight - windowSize*1.2)/2);
-    ctx.lineTo(centrX,  centrY + (houseHight + windowSize*1.2)/2);
+    ctx.moveTo(centrX,  centrY + (houseHight - windowHight)/2);
+    ctx.lineTo(centrX,  centrY + (houseHight + windowHight)/2);
     ctx.stroke();
 
-    ctx.moveTo(centrX - windowSize/2,  centrY + houseHight/2);
-    ctx.lineTo(centrX + windowSize/2,  centrY + houseHight/2);
+    ctx.moveTo(centrX - windowWidht/2,  centrY + houseHight/2);
+    ctx.lineTo(centrX + windowWidht/2,  centrY + houseHight/2);
     ctx.stroke();
 }
 
@@ -130,14 +137,14 @@ function redraw({ctx, width, height, clouds, sun, sky}) {
     drawGrass(ctx, width, height);
    
     for (const cloud of clouds) { 
-        drawCloud({ctx, cloud, rX: 60, rY: 40});
+        drawCloud({ctx, cloud, rX: CLOUD_RADIUS_X, rY: CLOUD_RADIUS_Y});
     }
-    drawHouse(ctx, width/2, height/2, 260, 240, 100);
+    drawHouse(ctx, width/2, height/2, HOUSE_WIDHT, HOUSE_HEIGHT, WINDOW_WIDHT, WINDOW_HEIGHT);
 }
 
 function moveCloud({distance, cloud, width, height}) {
     cloud.x -= distance;
-    cloud.y += 0.5 * Math.sin(cloud.t * cloud.x / width);
+    cloud.y += 0.3 * Math.sin(cloud.t * cloud.x / width);
     if (cloud.x + CLOUD_SIZE * 1.5 < 0) {
         cloud.x = width + CLOUD_SIZE * 1.5;
         cloud.y = (height * (1 - HORIZONT)) /2;
@@ -199,8 +206,8 @@ function main() {
     for (let i = 0; i < CLOUD_COUNT; i++) {
         clouds.push(createCloud({
             boxWidth: Math.random() * width,
-            boxHeight: Math.random() * 50 + 40,
-            speed: Math.random() * CLOUD_SPEED + 100,
+            boxHeight: Math.random() * 50 + MIN_CLOUDS_LEVEL,
+            speed: Math.random() * CLOUD_SPEED + MIN_CLOUD_SPEED,
             trajectory: Math.random() * 20
         }));
     }
