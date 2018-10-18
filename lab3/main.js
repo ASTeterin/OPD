@@ -1,4 +1,6 @@
-
+const RADIUS = 30;
+const CLOUD_COUNT = 3;
+const CLOUD_SPEED = 100; 
 const SKY_COLOR = 240;
 const HORIZONT = 0.8;
 const SUN_SPEED = 0.1;
@@ -18,12 +20,12 @@ function Cloud({
     startX,
     startY,
     speed,
-    trajectory
+    amplitude
 }) {
     this.x = startX;
     this.y = startY;
     this.s = speed;
-    this.t = trajectory
+    this.a = amplitude
 }
 
 function Sky({color}) {
@@ -144,21 +146,21 @@ function redraw({ctx, width, height, clouds, sun, sky}) {
 
 function moveCloud({distance, cloud, width, height}) {
     cloud.x -= distance;
-    cloud.y += 0.3 * Math.sin(cloud.t * cloud.x / width);
+    cloud.y += cloud.a * Math.sin(cloud.x * cloud.a * 10/ width);
     if (cloud.x + CLOUD_SIZE * 1.5 < 0) {
         cloud.x = width + CLOUD_SIZE * 1.5;
         cloud.y = (height * (1 - HORIZONT)) /2;
     }
 }
 
-function createCloud({boxWidth, boxHeight, speed, trajectory}) {
+function createCloud({boxWidth, boxHeight, speed, amplitude}) {
     const startX = boxWidth;
     const startY = boxHeight;
     return new Cloud({
         startX,
         startY,     
         speed,
-        trajectory
+        amplitude
     });
 }
 
@@ -198,9 +200,7 @@ function main() {
     const height = canvasEl.offsetHeight;
     const ctx = canvas.getContext('2d');
 
-    const RADIUS = 30;
-    const CLOUD_COUNT = 3;
-    const CLOUD_SPEED = 100; 
+   
     let clouds = [];
 
     for (let i = 0; i < CLOUD_COUNT; i++) {
@@ -208,7 +208,7 @@ function main() {
             boxWidth: Math.random() * width,
             boxHeight: Math.random() * 50 + MIN_CLOUDS_LEVEL,
             speed: Math.random() * CLOUD_SPEED + MIN_CLOUD_SPEED,
-            trajectory: Math.random() * 20
+            amplitude: Math.random()
         }));
     }
 
