@@ -24,12 +24,12 @@ function Cloud({
     startX,
     startY,
     speed,
-    trajectory
+    amplitude
 }) {
     this.x = startX;
     this.y = startY;
     this.s = speed;
-    this.t = trajectory
+    this.a = amplitude
 }
 
 function Sky({color}) {
@@ -150,21 +150,21 @@ function redraw({ctx, width, height, clouds, sun, sky, window_color}) {
 
 function moveCloud({distance, cloud, width, height}) {
     cloud.x -= distance;
-    cloud.y += 0.3 * Math.sin(cloud.t * cloud.x / width);
+    cloud.y += cloud.a * Math.sin(cloud.a * 10 * cloud.x / width);
     if (cloud.x + CLOUD_SIZE * 1.5 < 0) {
         cloud.x = width + CLOUD_SIZE * 1.5;
         cloud.y = (height * (1 - HORIZONT)) /2;
     }
 }
 
-function createCloud({boxWidth, boxHeight, speed, trajectory}) {
+function createCloud({boxWidth, boxHeight, speed, amplitude}) {
     const startX = boxWidth;
     const startY = boxHeight;
     return new Cloud({
         startX,
         startY,     
         speed,
-        trajectory
+        amplitude
     });
 }
 
@@ -217,7 +217,7 @@ function main() {
             boxWidth: Math.random() * width,
             boxHeight: Math.random() * 50 + MIN_CLOUDS_LEVEL,
             speed: Math.random() * CLOUD_SPEED + MIN_CLOUD_SPEED,
-            trajectory: Math.random() * 20
+            amplitude: Math.random()
         }));
     }
 
